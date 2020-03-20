@@ -101,4 +101,36 @@ router.post('/tasks', (req, res) => {
 	}
 });
 
+// GET a list of contexts
+router.get("/contexts", (req, res) => {
+    projects.getContexts()
+        .then(contexts => {
+            res.status(200).json(contexts);
+        })
+        .catch(error => {
+            res.status(500).json({message: "Could not get contexts from server."})
+        })
+})
+
+// POST a context to the database
+router.post("/contexts", (req, res) => {
+    projects.addContext(req.body)
+        .then(context => {
+            res.status(200).json(context);
+        })
+        .catch(error => {
+            res.status(500).json({message: "Could not add context to server."})
+        })
+})
+
+// GET a Context by ID
+router.get('/contexts/:id', (req, res) => {
+	projects
+		.getContextByID(req.params.id)
+		.then((context) => res.status(200).json(context))
+		.catch((error) =>
+			res.status(500).json({ message: 'Could not get context #' + req.params.id + ' from server.' })
+		);
+});
+
 module.exports = router;

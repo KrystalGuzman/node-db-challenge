@@ -11,7 +11,11 @@ module.exports = {
 
 	getTasks,
 	addTask,
-	getTaskByID,
+    getTaskByID,
+    
+    getContexts,
+    addContext,
+    getContextByID,
 
 	getTasksByProjectID,
 	getResourcesByProjectID
@@ -74,6 +78,22 @@ function addTask(task) {
 // get a task by ID
 function getTaskByID(id) {
 	return db('tasks').first().where({ id });
+}
+
+// retrieve a list of all resources
+function getContexts() {
+	return db('contexts');
+}
+// add a resource to the db
+function addContext(context) {
+	return db('contexts').insert(context).then((ids) => {
+		const [ id ] = ids;
+		return getContextByID(id);
+	});
+}
+// get a resource by ID
+function getContextByID(id) {
+	return db('contexts').first().where({ id });
 }
 
 // get all tasks with the same project ID
